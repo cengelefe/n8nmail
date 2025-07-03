@@ -12,3 +12,4 @@ Verileri kaydettiğim google sheet verisine "https://docs.google.com/spreadsheet
 Tıklama verilerini aldığım google sheet verisine ise "https://docs.google.com/spreadsheets/d/e/2PACX-1vQj56-FNl-zQOXlGxw-vtkAsgvJV7ftnkenjjGYY-cKdBK1e2bv61zIhx9RP79551tHOETInHJKR-N9/pubhtml" linkinden ulaşabilirsiniz.
 
 "mail_automation.json" dosyasını n8n uygulaması üzerinden import ettiğinizde tüm şemayı kullanabilirsiniz. 
+Google sheets ve gmail servsini n8n e bağlamayı unutmayınız.
