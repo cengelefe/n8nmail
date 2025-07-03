@@ -1,0 +1,526 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        40,
+        40
+      ],
+      "id": "62cf0a30-a447-430c-90b5-20f5328f1f49",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Mail }}",
+        "subject": "Geçen Ay Geride Kaldı - Hesabınızı Aktif Hale Getirin",
+        "message": "=<p>Sayın {{ $json['Ad-Soyad'] }},</p>\n\n<p>Konuşarak Öğren sitemize kayıt oluşunuzun üzerinden \"{{ $json['Geçen Ay Sayısı'] }}\" ay geçmiş bulunmakta.</p>\n\n<p>Hesabınızın aktifleşmesi için işlem yapmadığınızı fark ettik. Lütfen hesabınızı aktif hale getirmek veya sorularınız için bizimle iletişime geçin.</p>\n\n<a href=\"https://cengelefe.app.n8n.cloud/webhook-test/b2b968fc-0828-4138-a8dd-b8d3a22ced7c?email={{$json['Mail']}}&id={{$json['Ad-Soyad']}}&timestamp={{ $json['Kayıt Tarihi'] }}\">Tıklayın</a>\n\n<p>Teşekkür ederiz,  \nwww.konusarakogren.com</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        -120
+      ],
+      "id": "0f29db2e-3f87-43ea-9e02-ae6a8257a4ac",
+      "name": "Send a message",
+      "webhookId": "66009db1-3296-45f3-aa00-332267089b56",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KMZWSZJR7UvhIL4k",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1p4kKL6IENaRIyRfUFMnSEISz8BSIt8CPQiXVzs5ACUc",
+          "mode": "list",
+          "cachedResultName": "yeni_google_sheets_verisi",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p4kKL6IENaRIyRfUFMnSEISz8BSIt8CPQiXVzs5ACUc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1806866688,
+          "mode": "list",
+          "cachedResultName": "yeni_google_sheets_verisi",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p4kKL6IENaRIyRfUFMnSEISz8BSIt8CPQiXVzs5ACUc/edit#gid=1806866688"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        220,
+        40
+      ],
+      "id": "9f0c4856-24fb-4543-989d-0a8e53829828",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gJ8twMwzJyd6TQYJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Mail }}",
+        "subject": "Konuşarak Öğren",
+        "message": "=<p>Sayın {{ $json['Ad-Soyad'] }},</p>\n\n<p>Konuşarak Öğren sitemize kayıt oluşunuzun üzerinden \"{{ $json['Geçen Ay Sayısı'] }}\" ay geçmiş bulunmakta.</p>\n\n<p>Geçen süre zarfında işleminizi tamamlamadığınız için size hatırlatma yapmak istedik.Lütfen hesabınızı aktif hale getirmek için gerekli adımları atmayı unutmayın. Yardımcı olabileceğimiz bir konu olursa, bize ulaşmaktan çekinmeyin..</p>\n\n<a href=\"https://cengelefe.app.n8n.cloud/webhook-test/b2b968fc-0828-4138-a8dd-b8d3a22ced7c?email={{$json['Mail']}}&id={{$json['Ad-Soyad']}}&timestamp={{ $json['Kayıt Tarihi'] }}\">Tıklayın</a>\n\n<p>Teşekkür ederiz,  \nkonusarakogren</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        200
+      ],
+      "id": "d00cc455-7699-4f24-a2f7-836cd4657d37",
+      "name": "Send a message3",
+      "webhookId": "66009db1-3296-45f3-aa00-332267089b56",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KMZWSZJR7UvhIL4k",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "b2b968fc-0828-4138-a8dd-b8d3a22ced7c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        0
+      ],
+      "id": "30b92f58-1fe3-4eab-8a36-8f27d53116c7",
+      "name": "Webhook",
+      "webhookId": "b2b968fc-0828-4138-a8dd-b8d3a22ced7c"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1pNFbCGIzoCb-qR7EEtzJdYcLoQ1KHQe8hP-vdoggNGY",
+          "mode": "list",
+          "cachedResultName": "Veri takibi",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pNFbCGIzoCb-qR7EEtzJdYcLoQ1KHQe8hP-vdoggNGY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sayfa1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pNFbCGIzoCb-qR7EEtzJdYcLoQ1KHQe8hP-vdoggNGY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "E-mail": "={{ $json.query.email }}",
+            "Ad-Soyad": "={{ $json.query.id }}",
+            "Zaman": "={{ $json.query.timestamp }}"
+          },
+          "matchingColumns": [
+            "E-mail"
+          ],
+          "schema": [
+            {
+              "id": "E-mail",
+              "displayName": "E-mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad-Soyad",
+              "displayName": "Ad-Soyad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Zaman",
+              "displayName": "Zaman",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1500,
+        0
+      ],
+      "id": "be69f6ad-17d6-4d2a-8e84-b9da94727b59",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gJ8twMwzJyd6TQYJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Her ay tetiklenen bir trigger kuruldu",
+        "height": 80,
+        "width": 150,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "00b691e2-8c42-41f1-9561-da0715077128",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Burdan ise rastgele oluşturulan, google sheets ile bağlantılı bir müşteri listesi eklendi",
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        180,
+        -140
+      ],
+      "typeVersion": 1,
+      "id": "509c9b5f-7266-4154-a617-3563a7c19ac9",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Kod ile her kişinin ilk kaydolan günden itibaren kaç ay geçtiğinin çıktısını alınır",
+        "height": 120,
+        "width": 170
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        360,
+        -100
+      ],
+      "typeVersion": 1,
+      "id": "9cd70ef7-fbf8-45eb-b72c-5e08899091a9",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Çıktıya göre ilk 1 ay gecikme, 2 ay gecikme ve 3 ay gecikme olarak çıktılar alınır",
+        "height": 120,
+        "width": 150,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        600,
+        -100
+      ],
+      "typeVersion": 1,
+      "id": "8ea2f3f7-d9c7-4712-a186-8c92dbb9c3f2",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Geçen süre başına müşterilere toplu bir mail yollama ve içinde takip linki bulunan bir metin girilir",
+        "height": 120,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        840,
+        -260
+      ],
+      "typeVersion": 1,
+      "id": "daadcfa9-40d2-4a09-8918-c48e44b9bff2",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "eğer mail içindeki takip linkine tıklandığında içindeki verileri tutan bir trigger oluşturulur",
+        "height": 100,
+        "width": 200,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1220,
+        -120
+      ],
+      "typeVersion": 1,
+      "id": "97c0f160-f3f0-4291-a6b2-73df342f6776",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "Trigger dan gelen bilgi ile kullanıcının mail adresi, ismi ve kayıt olduğu tarih google sheets tablosuna kaydedilir",
+        "height": 120,
+        "width": 180,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1460,
+        -140
+      ],
+      "typeVersion": 1,
+      "id": "5fda2aec-58ac-4ffc-979d-0ce1883a8cc1",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nlet result = [];\n\nfor (let item of items) {\n    const record = item.json;\n    let registrationDateStr = record[\"Kayıt Tarihi\"];\n    \n    // Tarihi doğru formatta dönüştürmek için ay.gün.yıl -> yyyy-mm-dd formatına çevirme\n    let parts = registrationDateStr.split('.');  \n    let formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;  // yyyy-mm-dd formatına dönüştür\n\n    const registrationDate = new Date(formattedDate);  \n    const currentDate = new Date();  // Bugünün tarihi\n\n    let yearsDifference = currentDate.getFullYear() - registrationDate.getFullYear();\n\n    // Aylık fark (ayları karşılaştırmak için yıl farkını 12 ile çarpıyoruz)\n    let monthsDifference = currentDate.getMonth() - registrationDate.getMonth() + yearsDifference * 12;\n\n\n    result.push({\n        \"Ad-Soyad\": record[\"Ad-Soyad\"],\n        \"Mail\": record[\"Mail\"],\n        \"Kayıt Tarihi\": record[\"Kayıt Tarihi\"],\n        \"Durum\": record[\"Durum\"],\n        \"Geçen Ay Sayısı\": monthsDifference,\n        \n    });\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        40
+      ],
+      "id": "c5b1ab7d-20bc-41cd-bc45-759cdd4025ff",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['Geçen Ay Sayısı'] }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "faa92d4d-ee2d-40b1-ae72-b27b2acb934e"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "={{ $json['Ad-Soyad'] }} {{ $json.Mail }} {{ $json.Durum }} {{ $json['Geçen Ay Sayısı'] }}"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8f7edb31-57d3-4e8d-b7da-64adce9fcd5a",
+                    "leftValue": "={{ $json['Geçen Ay Sayısı'] }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "={{ $json['Ad-Soyad'] }} {{ $json.Mail }} {{ $json.Durum }} {{ $json['Geçen Ay Sayısı'] }}"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4a2fd6e6-d523-44ac-8a50-a9935356538b",
+                    "leftValue": "={{ $json['Geçen Ay Sayısı'] }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "={{ $json['Ad-Soyad'] }} {{ $json.Mail }} {{ $json.Durum }} {{ $json['Geçen Ay Sayısı'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        680,
+        40
+      ],
+      "id": "ea09dee0-89ee-496e-bbe5-bbfe5cd43e5b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Mail }}",
+        "subject": "Konuşarak Öğren",
+        "message": "=<p>Sayın {{ $json['Ad-Soyad'] }},</p>\n\n<p>Konuşarak Öğren sitemize kayıt oluşunuzun üzerinden \"{{ $json['Geçen Ay Sayısı'] }}\" ay geçmiş bulunmakta.</p>\n\n<p>Hesabınızın aktifleşmesi için işlem yapmadığınızı fark ettik. Lütfen hesabınızı aktif hale getirmek veya sorularınız için bizimle iletişime geçin.</p>\n<a href=\"https://cengelefe.app.n8n.cloud/webhook-test/b2b968fc-0828-4138-a8dd-b8d3a22ced7c?email={{$json['Mail']}}&id={{$json['Ad-Soyad']}}&timestamp={{ $json['Kayıt Tarihi'] }}\">Tıklayın</a>\n\n<p>Teşekkür ederiz,  \nkonusarakogren</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        40
+      ],
+      "id": "614d87b8-de9f-4fb9-862b-002f012c7279",
+      "name": "Send a message2",
+      "webhookId": "66009db1-3296-45f3-aa00-332267089b56",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KMZWSZJR7UvhIL4k",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0d63b7b1-33f6-48eb-9622-af7174a587a8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cd8a5a55d81ee893f39efc927e9a9ca7ba93dfa4ff2e5bb5e3674783c9478a43"
+  },
+  "id": "3jnHT2UMOnzI8XcU",
+  "tags": []
+}
